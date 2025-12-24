@@ -24,5 +24,14 @@ public class UserSubscriptionController {
     public List<SubscriptionTemplateResponse> getAllTemplates() {
         return userSubscriptionFacade.getAllTemplates();
     }
-
+    @PostMapping("/process-expirations")
+    public void processExpirations() {
+        userSubscriptionFacade.processExpirations();
+    }
+    
+    @GetMapping("/{userId}/active")
+    public List<UserSubscriptionResponse> getActiveSubscriptions(@PathVariable Long userId) {
+        return userSubscriptionFacade.getActiveSubscriptions(userId);
+    }
 }
+
