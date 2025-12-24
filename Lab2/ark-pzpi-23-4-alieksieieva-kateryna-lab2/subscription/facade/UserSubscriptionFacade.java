@@ -81,6 +81,10 @@ public class UserSubscriptionFacade {
     public BusinessStatisticsResponse getBusinessStatistics(Long businessId) {
         return userSubscriptionService.getStatistics(businessId);
     }
+    
+    public void processExpirations() {
+        userSubscriptionService.processSubscriptionExpirations();
+    }
 
     private BigDecimal calculateFinalPrice(
             BigDecimal basePrice,
@@ -97,3 +101,4 @@ public class UserSubscriptionFacade {
         return result;
     }
 }
+
