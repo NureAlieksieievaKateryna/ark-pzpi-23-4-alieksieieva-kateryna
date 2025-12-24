@@ -58,4 +58,37 @@ public class UserSubscriptionService {
 
         return userSubscriptionRepository.save(subscription);
     }
+
+    /**
+     * Check all subscriptions and update their status based on expiration.
+     * Optionally extend subscription if auto-renewal is enabled.
+     */
+    @Transactional
+    public void processSubscriptionExpirations() {
+        List<UserSubscriptionEntity> expired = userSubscriptionRepository.findExpiredSubscriptions();
+
+        for (UserSubscriptionEntity sub : expired) {
+
+            if (shouldAutoRenew(sub)) {
+
+                BigDecimal extensionPrice = sub.getFinalPrice().multiply(BigDecimal.valueOf(0.9));
+                sub.setEndDate(sub.getEndDate().plusDays(sub.getTemplate().getDurationDays()));
+                sub.setFinalPrice(extensionPrice);
+                userSubscriptionRepository.save(sub);
+            } else {
+                sub.setStatus(UserSubscriptionStatus.EXPIRED);
+                userSubscriptionRepository.save(sub);
+            }
+        }
+    }
+
+    public List<UserSubscriptionEntity> getActiveSubscriptions(Long userId) {
+        return userSubscriptionRepository.findByUserIdAndStatus(userId, UserSubscriptionStatus.ACTIVE);
+    }
+
+    private boolean shouldAutoRenew(UserSubscriptionEntity sub) {
+
+        return true;
+    }
 }
+
