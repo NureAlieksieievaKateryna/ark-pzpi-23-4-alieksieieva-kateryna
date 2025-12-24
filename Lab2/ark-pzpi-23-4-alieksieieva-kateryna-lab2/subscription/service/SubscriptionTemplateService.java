@@ -62,4 +62,26 @@ public class SubscriptionTemplateService {
 
         template.setStatus(status);
     }
+    
+    /**
+ * Calculates the final price of a subscription template
+ * including all component price modifiers.
+ *
+ * @param template subscription template entity
+ * @return final calculated price
+ */
+public BigDecimal calculateFinalPrice(SubscriptionTemplateEntity template) {
+
+    BigDecimal result = template.getBasePrice();
+
+    for (SubscriptionComponentEntity component : template.getComponents()) {
+        if (component.getPriceModifier() != null) {
+            result = result.add(component.getPriceModifier());
+        }
+    }
+
+    return result;
 }
+
+}
+
