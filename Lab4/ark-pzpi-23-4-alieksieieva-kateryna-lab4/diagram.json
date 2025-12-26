@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "author": "Kate Al",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnCheck",
+      "top": -118.6,
+      "left": 96,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btnConfig",
+      "top": -30,
+      "left": 250,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "buzz",
+      "top": 328.8,
+      "left": 328.2,
+      "attrs": { "volume": "0.3" }
+    },
+    { "type": "wokwi-lcd1602", "id": "lcd", "top": 100, "left": 150, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "btnCheck:1.r", "esp:4", "green", [] ],
+    [ "btnCheck:2.r", "esp:GND.2", "black", [] ],
+    [ "btnConfig:1.r", "esp:2", "green", [] ],
+    [ "btnConfig:2.r", "esp:GND.2", "black", [] ],
+    [ "buzz:1", "esp:15", "green", [] ],
+    [ "buzz:2", "esp:GND.2", "black", [] ],
+    [ "lcd:VSS", "esp:GND", "", [] ],
+    [ "lcd:VDD", "esp:3V3", "", [] ],
+    [ "lcd:VO", "esp:32", "", [] ],
+    [ "lcd:RS", "esp:16", "", [] ],
+    [ "lcd:RW", "esp:GND", "", [] ],
+    [ "lcd:E", "esp:17", "", [] ],
+    [ "lcd:D4", "esp:5", "", [] ],
+    [ "lcd:D5", "esp:18", "", [] ],
+    [ "lcd:D6", "esp:19", "", [] ],
+    [ "lcd:D7", "esp:21", "", [] ]
+  ],
+  "dependencies": {}
+}
