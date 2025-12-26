@@ -97,7 +97,6 @@
 
 
 3. ОПИС ВИКОНАНОЇ РОБОТИ
-3.1 Реалізація функцій адміністрування серверної частини
 Схема взаємодії IoT пристроїв з серверною частиною демонструє, як ESP32-клієнт обмінюється даними з сервером через WiFi. Пристрій зчитує сигнали від кнопок і надсилає запити на RESTful API серверу для перевірки підписки та логування подій. Сервер обробляє запити, зберігає інформацію у базі даних і повертає відповіді, які відображаються на LCD-дисплеї та підтверджуються звуковими сигналами. Таким чином забезпечується двостороння взаємодія: пристрій передає телеметрію і отримує статусні повідомлення від серверної частини.
  
 Рисунок 3.1 - Схема взаємодії IoT пристроїв з серверною частиною
@@ -108,12 +107,9 @@
  
 Рисунок 3.3 - UML діаграма діяльності
     	Програма на базі ESP32 реалізує клієнтську частину IoT-системи для перевірки підписок користувачів. Спершу підключаються необхідні бібліотеки: Arduino.h для базових функцій роботи з пинами і серійним портом, WiFi.h для підключення до WiFi, HTTPClient.h для роботи з HTTP-запитами, ArduinoJson.h для обробки JSON-даних та LiquidCrystal.h для роботи з LCD-дисплеєм.
-
-Визначаються константи для підключення до WiFi (WIFI_SSID, WIFI_PASS) та для взаємодії з сервером (SERVER_URL, USER_SUBSCRIPTION_ID, DEVICE_ID, COMPONENT_ID). Також оголошуються піни для апаратних компонентів: кнопки BTN_CHECK і BTN_CONFIG для взаємодії користувача, пін зумера BUZZER_PIN для звукових сигналів, а також піни LCD-дисплея (LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7) для відображення інформації.
-Для кнопок використовується механізм debounce, який зберігає останній стан кнопки (lastBtnState) і час останнього зчитування (lastDebounceTime), щоб уникнути випадкових спрацьовувань. Створюється об’єкт lcd для керування дисплеєм, який відповідає за Output Control Module системи.
+Визначаються константи для підключення до WiFi (WIFI_SSID, WIFI_PASS) та для взаємодії з сервером (SERVER_URL, USER_SUBSCRIPTION_ID, DEVICE_ID, COMPONENT_ID). Також оголошуються піни для апаратних компонентів: кнопки BTN_CHECK і BTN_CONFIG для взаємодії користувача, пін зумера BUZZER_PIN для звукових сигналів, а також піни LCD-дисплея (LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7) для відображення інформації. Для кнопок використовується механізм debounce, який зберігає останній стан кнопки (lastBtnState) і час останнього зчитування (lastDebounceTime), щоб уникнути випадкових спрацьовувань. Створюється об’єкт lcd для керування дисплеєм, який відповідає за Output Control Module системи.
 У функції setup() налаштовуються піни для вводу і виводу, ініціалізується LCD-дисплей і встановлюється серійне з’єднання для налагодження. Після цього виконується підключення до WiFi через функцію connectWiFi(), яка контролює стан з’єднання і виводить повідомлення про успішне підключення на дисплей та серійний монітор.
 Основна логіка програми розміщена у циклі loop(). Кнопка BTN_CHECK зчитується для перевірки підписки. Якщо кнопка натиснута і debounce підтвердив стабільний стан, викликається функція checkSubscriptionFromServer(). Вона надсилає GET-запит на сервер до endpoint /subscriptions/user/{USER_SUBSCRIPTION_ID} і обробляє отриманий JSON. Якщо статус підписки "ACTIVE", результат зберігається як успішний, і надсилається на сервер через функцію logUsage().
-
 Функція logUsage() відповідає за Device Management Module, вона відправляє POST-запит на серверний endpoint /iot/log з інформацією про використання пристрою, включно з ідентифікатором пристрою, користувача та компоненту, а також результатом дії. У разі помилки або відсутності підписки спрацьовує alertBuzzer(), який подає звуковий сигнал, а на дисплеї відображається відповідне повідомлення через updateLCD().
 Кнопка BTN_CONFIG дозволяє користувачу активувати режим налаштувань. При її натисканні на дисплеї відображається повідомлення "CONFIG Pressed", а зумер спрацьовує для підтвердження дії.
 Таким чином, весь цикл loop() забезпечує інтеграцію Input/Sensor Abstraction Layer для обробки кнопок, Device Management Module для перевірки підписок і логування на сервер, а також Output Control Module для відображення статусу і сигналізації. Програма гарантує, що користувач отримує оперативну інформацію про стан своєї підписки, а сервер веде точний облік використання компонентів системи.
@@ -240,25 +236,13 @@ void loop() {
 
 
 
+
+
+
+
+
 4. ВИСНОВКИ
-Під час виконання лабораторної роботи №4 було створено програмне забезпечення для IoT-пристрою (SmartDevice) на базі платформи вбудованих систем. Реалізовано розширений функціонал, що відповідає концепції Інтернету речей, а також забезпечено взаємодію пристрою з іншими компонентами програмної системи через сучасні протоколи обміну даними. У процесі роботи було поглиблено теоретичні знання та набуті практичні навички у розробці програмного забезпечення для вбудованих систем, проєктуванні IoT-рішень та організації їх інтеграції у єдину програмну екосистему. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Під час виконання лабораторної роботи №4 було створено програмне забезпечення для IoT-пристрою (SmartDevice) на базі платформи вбудованих систем. Реалізовано розширений функціонал, що відповідає концепції Інтернету речей, а також забезпечено взаємодію пристрою з іншими компонентами програмної системи через сучасні протоколи обміну даними. У процесі роботи було поглиблено теоретичні знання та набуті практичні навички у розробці програмного забезпечення для вбудованих систем, проєктуванні IoT-рішень та організації їх інтеграції у єдину програмну екосистеми. 
 
 
 5. ВИКОРИСТАНІ ДЖЕРЕЛА
@@ -283,9 +267,8 @@ void loop() {
 
 
 
-
-
 ДОДАТОК А
+Відеозапис
 Відеозапис https://youtu.be/YRhhUizgpeI
 Відеозапис презентації результатів лабораторної роботи: 
 Хронологічний опис відеозапису: 
@@ -312,5 +295,181 @@ void loop() {
 ДОДАТОК Б
 Програмний код
 В.1 Код для IoT пристрою.
+#include <Arduino.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
+#include <LiquidCrystal.h>
+
+#define WIFI_SSID "Wokwi-GUEST"
+#define WIFI_PASS ""
+
+#define SERVER_URL "http://192.168.1.5:8080" 
+#define USER_SUBSCRIPTION_ID 1
+#define DEVICE_ID "ESP32-01"
+#define COMPONENT_ID 1
+
+#define BTN_CHECK 4
+#define BTN_CONFIG 2
+#define BUZZER_PIN 15
+
+#define LCD_RS 16
+#define LCD_E 17
+#define LCD_D4 5
+#define LCD_D5 18
+#define LCD_D6 19
+#define LCD_D7 21
+
+bool lastBtnState = HIGH;
+unsigned long lastDebounceTime = 0;
+const unsigned long debounceDelay = 50;
+
+LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+
+void connectWiFi();
+void alertBuzzer();
+bool checkSubscriptionFromServer();
+void logUsage(bool success);
+void updateLCD(const char* text);
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(BTN_CHECK, INPUT_PULLUP);
+  pinMode(BTN_CONFIG, INPUT_PULLUP);
+  pinMode(BUZZER_PIN, OUTPUT);
+
+  lcd.begin(16, 2);
+  lcd.print("Initializing...");
+
+  connectWiFi();
+
+  lcd.clear();
+  lcd.print("ESP32 Ready");
+}
+
+void loop() {
+  bool reading = digitalRead(BTN_CHECK);
+
+  if (reading != lastBtnState) lastDebounceTime = millis();
+
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading == LOW) {
+     
+      bool active = checkSubscriptionFromServer();
+
+      logUsage(active);
+
+ 
+      if (!active) alertBuzzer();
+
+      delay(500); 
+    }
+  }
+
+  lastBtnState = reading;
+
+  if (digitalRead(BTN_CONFIG) == LOW) {
+    updateLCD("CONFIG Pressed");
+    alertBuzzer();
+    delay(500);
+  }
+
+  delay(10);
+}
+
+void connectWiFi() {
+  Serial.print("Connecting to WiFi...");
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("\nWiFi connected!");
+  Serial.println(WiFi.localIP());
+  lcd.clear();
+  lcd.print("WiFi Connected");
+}
+
+void alertBuzzer() {
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(200);
+  digitalWrite(BUZZER_PIN, LOW);
+}
+
+bool checkSubscriptionFromServer() {
+  if (WiFi.status() != WL_CONNECTED) {
+    updateLCD("WiFi Error");
+    return false;
+  }
+
+  HTTPClient http;
+  String url = String(SERVER_URL) + "/subscriptions/user/" + String(USER_SUBSCRIPTION_ID);
+  Serial.println("GET " + url);
+  http.begin(url);
+
+  int httpCode = http.GET();
+  if (httpCode != 200) {
+    Serial.printf("HTTP GET Error: %d\n", httpCode);
+    updateLCD("HTTP Error");
+    http.end();
+    return false;
+  }
+
+  String payload = http.getString();
+  http.end();
+
+  DynamicJsonDocument doc(256);
+  DeserializationError err = deserializeJson(doc, payload);
+  if (err) {
+    Serial.println("JSON Error");
+    updateLCD("JSON Error");
+    return false;
+  }
+
+  const char* status = doc["status"];
+  Serial.println("Subscription status: " + String(status));
+  updateLCD(status);
+
+  return strcmp(status, "ACTIVE") == 0;
+}
+
+void logUsage(bool success) {
+  if (WiFi.status() != WL_CONNECTED) return;
+
+  HTTPClient http;
+  String url = String(SERVER_URL) + "/iot/log";
+  http.begin(url);
+  http.addHeader("Content-Type", "application/json");
+
+  DynamicJsonDocument doc(256);
+  doc["deviceId"] = DEVICE_ID;
+  doc["userSubscriptionId"] = USER_SUBSCRIPTION_ID;
+  doc["componentId"] = COMPONENT_ID;
+  doc["success"] = success;
+  doc["usedAt"] = String(millis()); 
+
+  String requestBody;
+  serializeJson(doc, requestBody);
+
+  int httpCode = http.POST(requestBody);
+  if (httpCode > 0) {
+    Serial.printf("POST Log sent, HTTP code: %d\n", httpCode);
+    updateLCD(success ? "Logged: OK" : "Logged: FAIL");
+  } else {
+    Serial.printf("POST Error: %s\n", http.errorToString(httpCode).c_str());
+    updateLCD("Log Error");
+  }
+
+  http.end();
+}
+
+void updateLCD(const char* text) {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(text);
+}
 
 
